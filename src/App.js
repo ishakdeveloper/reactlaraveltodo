@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import TodoContextProvider from './contexts/TodoContext';
+
+import TodoTable from './components/TodoTable'
+import { CssBaseline } from '@material-ui/core';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  componentDidCatch(error, info) {
+    // Do something useful with error like logging to error reporting system
+    // then force reload (if that's what you want):
+    window.location.reload(false);
+  }
+
+  render() {
+    return (
+      <TodoContextProvider>
+        <CssBaseline>
+          <TodoTable />
+        </CssBaseline>
+      </TodoContextProvider>
+    );
+  }
 }
 
 export default App;
