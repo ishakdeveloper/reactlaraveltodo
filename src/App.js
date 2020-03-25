@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import TodoContextProvider from './contexts/TodoContext';
 
-import TodoTable from './components/TodoTable'
-import { CssBaseline } from '@material-ui/core';
-
+import TodoTable from './components/TodoTable';
+import AppBar from './components/AppBar';
 import './App.css';
 
 class App extends Component {
@@ -16,11 +15,12 @@ class App extends Component {
 
   render() {
     return (
-      <TodoContextProvider>
-        <CssBaseline>
-          <TodoTable />
-        </CssBaseline>
-      </TodoContextProvider>
+      <div>
+        <TodoContextProvider>
+            <AppBar />
+            <TodoTable />
+        </TodoContextProvider>
+    </div>
     );
   }
 }

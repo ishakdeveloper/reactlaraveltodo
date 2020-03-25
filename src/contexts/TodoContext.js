@@ -7,7 +7,7 @@ class TodoContextProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: [],
+            todos: [], // in deze array komt informatie uit de api met Axios
 
         };
         this.readTodo();
@@ -26,7 +26,7 @@ class TodoContextProvider extends Component {
         });
     }
 
-    // Create 
+    // POST request om een todo aan te maken
     createTodo(event, todo) {
         event.preventDefault()
         axios.post('http://127.0.0.1:8000/api/todos', todo)
@@ -36,13 +36,14 @@ class TodoContextProvider extends Component {
                     data.push(response.data.todo);
                     this.setState({
                         todos: data,
+                        
                    })
             }).catch(error => {
                 event.preventDefault();
                 console.error(error);
             })
     }
-    // Read
+    // Alle informatie pakken uit API
     readTodo() {
         axios.get('http://127.0.0.1:8000/api/todos')
         .then(response => {
@@ -53,7 +54,7 @@ class TodoContextProvider extends Component {
             console.error(error);
         })
     }
-    // Update
+    // Updaten van een  todo
     updateTodo(data) {
 
         axios.patch('http://127.0.0.1:8000/api/todos/' + data.id, data)
@@ -74,7 +75,7 @@ class TodoContextProvider extends Component {
                 console.log("Er is een error.");
             })
     }
-    // Delete
+    // Todo verwijderen
     deleteTodo(data) {
 
         axios.delete('http://127.0.0.1:8000/api/todos/' + data.id)
@@ -102,7 +103,6 @@ class TodoContextProvider extends Component {
                 createTodo: this.createTodo.bind(this),
                 updateTodo: this.updateTodo.bind(this),
                 deleteTodo: this.deleteTodo.bind(this),
-                setMessage: (message) => this.setState({message: message}),
             }} >
                 {this.props.children}
             </TodoContext.Provider>

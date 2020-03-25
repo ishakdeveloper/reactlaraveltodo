@@ -13,24 +13,16 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import Container from '@material-ui/core/Container';
 
 import DeleteDialog from './DeleteDialog';
 import FileUploadDialog from './FileUploadDialog';
 
 import '../App.css';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1
-    },
-
-}))
-
 function TodoTable() {
 
-    const classes = useStyles();
     const context = useContext(TodoContext);
     const [addTodo, setAddTodo] = useState('');
     const [editIsShown, setEditIsShown] = useState(false);
@@ -41,94 +33,91 @@ function TodoTable() {
 
     return (
         <Fragment>
-                <div className={classes.root}>
-                    <Grid>
-                        <Grid item xs={6}>
-                            <Card className={"card"}>
-                            <form onSubmit={(event) => {context.createTodo(event, {name: addTodo})}}>
+            <Container>
+                <div>
+                    <Grid item xs={8}>
+                        <Card className={"card"}>
+                        <form onSubmit={(event) => {context.createTodo(event, {name: addTodo})}}>
 
-                            <Table className={classes.table}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell size="small">Todo List</TableCell>
-                                    </TableRow>
-                                </TableHead>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell size="small">Todo List</TableCell>
+                                </TableRow>
+                            </TableHead>
 
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell size="small">
-                                            <TextField value={addTodo} variant="outlined" onChange={(event) => {setAddTodo(event.target.value)}} label="Voeg een Todo toe.." fullWidth />
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <Tooltip TransitionComponent={Zoom} title="Todo Toevoegen">
-                                                <IconButton type="submit"> <AddIcon /> </IconButton>
-                                            </Tooltip>
-                                        </TableCell> 
-                                    </TableRow >
-                                    {
-                                        context.todos.slice().reverse().map((todo, index) => (
-                                            <TableRow key={'todo ' + index} >
-                                                <TableCell> 
-                                                    
-                                                    <Checkbox color="primary" /> 
-                                                    
-                                                    {editIsShown === todo.id
-                                                    
-                                                    ? 
-                                                    
-                                                    <TextField 
-                                                    value={editTodo} 
-                                                    onChange={(event) => {setEditTodo(event.target.value)}}
-                                                    InputProps={{
-                                                        endAdornment: 
-                                                        <Fragment>
-                                                            <Tooltip TransitionComponent={Zoom} title="Terug">
-                                                                <IconButton onClick={() => {setEditIsShown(false)}}> <CloseIcon /> </IconButton>
-                                                            </Tooltip>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell size="small">
+                                        <TextField value={addTodo} variant="outlined" onChange={(event) => {setAddTodo(event.target.value)}} label="Voeg een Todo toe.." fullWidth />
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Tooltip TransitionComponent={Zoom} title="Todo Toevoegen">
+                                            <IconButton type="submit"> <AddIcon /> </IconButton>
+                                        </Tooltip>
+                                    </TableCell> 
+                                </TableRow >
+                                {
+                                    context.todos.slice().reverse().map((todo, index) => (
+                                        <TableRow key={'todo ' + index} >
+                                            <TableCell  className={"" + (todo.completed ? "crossed-line" : "")}> 
+                                                
+                                                <Checkbox color="primary" /> 
+                                                
+                                                {editIsShown === todo.id
+                                                
+                                                ? // Als de edit zichtbaar is, zet een textfield.
+                                                
+                                                <TextField 
+                                                value={editTodo} 
+                                                onChange={(event) => {setEditTodo(event.target.value)}}
+                                                InputProps={{
+                                                    endAdornment: 
+                                                    <Fragment>
+                                                        <Tooltip TransitionComponent={Zoom} title="Terug">
+                                                            <IconButton onClick={() => {setEditIsShown(false)}}> <CloseIcon /> </IconButton>
+                                                        </Tooltip>
 
-                                                            <Tooltip TransitionComponent={Zoom} title="Voltooien">
-                                                                <IconButton onClick={() => {context.updateTodo({id: todo.id, name: editTodo});
-                                                                setEditIsShown(false)
-                                                            }}> <DoneIcon /> </IconButton>
-                                                            </Tooltip>
-                                                        </Fragment>  
+                                                        <Tooltip TransitionComponent={Zoom} title="Voltooien">
+                                                            <IconButton onClick={() => {context.updateTodo({id: todo.id, name: editTodo});
+                                                            setEditIsShown(false)
+                                                        }}> <DoneIcon /> </IconButton>
+                                                        </Tooltip>
+                                                    </Fragment>  
 
-                                                    }}
-                                                    />
-                                                    
-                                                    : 
-                                                    
-                                                    todo.name}
-                                                    
-                                                    </TableCell>
-                                                <TableCell align="right">
-
-                                                <Tooltip TransitionComponent={Zoom} title="Afbeelding">
-                                                        <IconButton onClick={() => {setFileUploadIsShown(true)}}> <PhotoCameraIcon /> </IconButton>
-                                                    </Tooltip>
-
-                                                    <Tooltip TransitionComponent={Zoom} title="Bewerken">
-                                                        <IconButton onClick={() => {setEditIsShown(todo.id); setEditTodo(todo.name)}}> <EditIcon /> </IconButton>
-                                                    </Tooltip>
-                                                    
-                                                    <Tooltip TransitionComponent={Zoom} title="Verwijderen">
-                                                        <IconButton onClick={() => {setDeleteConfirmationIsShown(true); setTodoToBeDeleted(todo)}}> <DeleteIcon /> </IconButton>
-                                                    </Tooltip>
+                                                }}
+                                                />
+                                                
+                                                : // Anders, gewoon de naam van de todo.
+                                                
+                                                todo.name}
+                                                
                                                 </TableCell>
-                                            </TableRow>
-                                        ))
-                                    }
-                                </TableBody>
-                                </Table>
-                            </form>
-                            </Card>
+                                            <TableCell align="right">
 
-                        </Grid>
+                                            <Tooltip TransitionComponent={Zoom} title="Afbeelding">
+                                                    <IconButton onClick={() => {setFileUploadIsShown(true)}}> <PhotoCameraIcon /> </IconButton>
+                                                </Tooltip>
 
-                    
+                                                <Tooltip TransitionComponent={Zoom} title="Bewerken">
+                                                    <IconButton onClick={() => {setEditIsShown(todo.id); setEditTodo(todo.name)}}> <EditIcon /> </IconButton>
+                                                </Tooltip>
+                                                
+                                                <Tooltip TransitionComponent={Zoom} title="Verwijderen">
+                                                    <IconButton onClick={() => {setDeleteConfirmationIsShown(true); setTodoToBeDeleted(todo)}}> <DeleteIcon /> </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                            </Table>
+                        </form>
+                        </Card>
                     </Grid>
                 </div>
-
+            </Container>
+                
             {DeleteConfirmationIsShown && (
                 <DeleteDialog todo={todoToBeDeleted} open={DeleteConfirmationIsShown} setDeleteConfirmationIsShown={setDeleteConfirmationIsShown}/>
             )}
