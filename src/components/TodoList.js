@@ -32,9 +32,6 @@ function TodoList() {
         
         <Card>
             <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Word of the Day
-                </Typography>
 
                 <form onSubmit={(event) => {context.createTodo(event, {name: addTodo})}}>
                     <TextField value={addTodo} variant="outlined" onChange={(event) => {setAddTodo(event.target.value)}} label="Voeg een Todo toe.." fullWidth />
