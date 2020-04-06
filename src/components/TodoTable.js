@@ -16,12 +16,14 @@ import Zoom from '@material-ui/core/Zoom';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import Container from '@material-ui/core/Container';
 
+import { Snackbar, SnackbarContent, Button, makeStyles } from '@material-ui/core';
+
 import DeleteDialog from './DeleteDialog';
 import FileUploadDialog from './FileUploadDialog';
 
 import '../App.css';
 
-function TodoTable() {
+export default function TodoTable() {
 
     const context = useContext(TodoContext);
     const [addTodo, setAddTodo] = useState('');
@@ -30,14 +32,38 @@ function TodoTable() {
     const [DeleteConfirmationIsShown, setDeleteConfirmationIsShown] = useState(false);
     const [FileUploadIsShown, setFileUploadIsShown] = useState(false);
     const [todoToBeDeleted, setTodoToBeDeleted] = useState(null);
+    const [open, setOpen] = React.useState(false);
+
+    const handleAlertPopup = () => {
+        setOpen(true);
+    }
+
+    const handleAlertClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+    };
+
+    // Completed bericht handlers
+
 
     return (
+
         <Fragment>
+
+            <Snackbar autoHideDuration={2000} open={open} onClose={handleAlertClose}>
+                <SnackbarContent message="Todo aangemaakt." action={[
+                    <Button key="dismiss" onClick={handleAlertClose} color="inherit">Sluiten</Button>
+                ]}/>
+            </Snackbar>
+
             <Container>
                 <div>
                     <Grid item xs={8}>
                         <Card className={"card"}>
-                        <form onSubmit={(event) => {context.createTodo(event, {name: addTodo})}}>
+                        <form type="submit" onSubmit={(event) => {context.createTodo(event, {name: addTodo}); handleAlertPopup()}}>
 
                         <Table>
                             <TableHead>
@@ -60,9 +86,10 @@ function TodoTable() {
                                 {
                                     context.todos.slice().reverse().map((todo, index) => (
                                         <TableRow key={'todo ' + index} >
-                                            <TableCell  className={"" + (todo.completed ? "crossed-line" : "")}> 
+                                              {/* className={"" + (todo.completed ? "crossed-line" : "")} */}
+                                            <TableCell> 
                                                 
-                                                <Checkbox color="primary" /> 
+                                                <Checkbox color="primary" checked={todo.completed ? true : false} onChange={() => {context.updateCheckboxTodo({id: todo.id, name: todo.name, completed: !todo.completed})}}/> 
                                                 
                                                 {editIsShown === todo.id
                                                 
@@ -90,7 +117,7 @@ function TodoTable() {
                                                 
                                                 : // Anders, gewoon de naam van de todo.
                                                 
-                                                todo.name}
+                                                <span className={"" + (todo.completed ? "crossed-line" : "")}> {todo.name} </span> }
                                                 
                                                 </TableCell>
                                             <TableCell align="right">
@@ -125,5 +152,3 @@ function TodoTable() {
         </Fragment>
     );
 }
-
-export default TodoTable;

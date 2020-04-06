@@ -7,12 +7,6 @@ import './App.css';
 
 class App extends Component {
 
-  componentDidCatch(error, info) {
-    // Do something useful with error like logging to error reporting system
-    // then force reload (if that's what you want):
-    window.location.reload(false);
-  }
-
   render() {
     return (
       <div>
