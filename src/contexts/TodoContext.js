@@ -8,7 +8,6 @@ class TodoContextProvider extends Component {
         super(props);
         this.state = {
             todos: [], // in deze array komt informatie uit de api met Axios
-            message: {}
 
         };
         this.readTodo();
@@ -130,9 +129,6 @@ class TodoContextProvider extends Component {
                 updateTodo: this.updateTodo.bind(this),
                 deleteTodo: this.deleteTodo.bind(this),
                 updateCheckboxTodo: this.updateCheckboxTodo.bind(this),
-                setMessage: (message) => this.setState({
-                    message: message
-                })
             }} >
                 {this.props.children}
             </TodoContext.Provider>

@@ -12,34 +12,6 @@ import Slide from '@material-ui/core/Slide';
 import Dropzones from './FileUpload/Dropzone';
 
 
-  // const baseStyle = {   
-  //   flex: 1,
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   padding: '200px',
-  //   margin: '10%',
-  //   borderWidth: 2,
-  //   borderRadius: 2,
-  //   borderColor: '#1F4D90',
-  //   borderStyle: 'dashed',
-  //   backgroundColor: '#fafafa',
-  //   color: '#1F4D90',
-  //   outline: 'none',
-  //   transition: 'border .24s ease-in-out'
-  // };
-
-  // const activeStyle = {
-  //   borderColor: '#2196f3'
-  // };
-
-  // const acceptStyle = {
-  //   borderColor: '#00e676'
-  // };
-
-  // const rejectStyle = {
-  //   borderColor: '#ff1744'
-  // };
 
 const useStyles = makeStyles(theme => ({
   appBar: {

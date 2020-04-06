@@ -16,7 +16,7 @@ import Zoom from '@material-ui/core/Zoom';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import Container from '@material-ui/core/Container';
 
-import { Snackbar, SnackbarContent, Button, makeStyles } from '@material-ui/core';
+import { Snackbar, SnackbarContent, Button } from '@material-ui/core';
 
 import DeleteDialog from './DeleteDialog';
 import FileUploadDialog from './FileUploadDialog';
@@ -45,9 +45,6 @@ export default function TodoTable() {
     
         setOpen(false);
     };
-
-    // Completed bericht handlers
-
 
     return (
 
